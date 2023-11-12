@@ -11,7 +11,8 @@
     c. add in logic for jumps
     d. add in logic for multiple jumps
 
-3. 
+3. Work on final touches to get the base game running and functioning correctly
+    a. Work on extra functionality if the base game is working by this time
 
 
 4. Add in the extra functionality & any final touches
