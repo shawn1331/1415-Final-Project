@@ -19,11 +19,12 @@
     a. Leaderboard
     b. Computer simulated AI (random movements)
     c. Checkerboard size options
-    d. color options for pieces (maybe)
-    e. color options for the board(maybe)
-    f. different markers for pieces(maybe)
-    g. themed board and pieces(maybe)
-    h. 
+    d. Color options for pieces (maybe)
+    e. Color options for the board(maybe)
+    f. Different markers for pieces(maybe)
+    g. Themed board and pieces(maybe)
+    h. Random number draw for who goes first rather than just one color always starting first
+    i. 
 
 5. Checkers rules
     a. 12 checkers per player on black squares only
