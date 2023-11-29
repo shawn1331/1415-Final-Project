@@ -1,4 +1,4 @@
-public class Game : Board
+public class Game
 {
     public Player currentPlayer = Player.Player1;
     public GamePieces? currentPiece;
@@ -6,6 +6,7 @@ public class Game : Board
     public int PointsBlack { get; private set; }
     private Dictionary<string, int> scores = new();
     UserInput uI = new();
+    Board board = new();
     public void PrintMenu()
     {
         Console.WriteLine(@"Welcome to Checkers! Would you like to: 
@@ -14,7 +15,7 @@ public class Game : Board
                             3. Print the Leaderboard
                             4. Exit the Game ");
     }
-    public bool IsGameOver()
+    public bool IsGameOver(List<List<GamePieces?>> board)
     {
         int blackCount = 0;
         int redCount = 0;
@@ -52,28 +53,28 @@ public class Game : Board
 
     }
 
-    public bool IsMoveable(int pieceRow, int pieceColumn)
+    public bool IsMoveable(List<List<GamePieces?>> board, int pieceRow, int pieceColumn)
     {
         for (int row = 0; row < board.Count; row++)
         {
             for (int column = 0; column < board[row].Count; column++)
             {
-                if (currentPiece == GamePieces.Red && pieceRow >= 0 && pieceRow < board.Count && pieceColumn >= 0 && pieceColumn < board[row].Count && board[pieceRow - 1][pieceColumn + 1] == null || board[pieceRow - 1][pieceColumn - 1] == null)
+                if (currentPlayer == Player.Player1 && board[pieceRow][pieceColumn] == GamePieces.Red && pieceRow >= 0 && pieceRow < board.Count && pieceColumn >= 0 && pieceColumn < board[row].Count || board[pieceRow - 1][pieceColumn + 1] == null || board[pieceRow - 1][pieceColumn - 1] == null)
                 {
                     return true;
                 }
 
-                else if (currentPiece == GamePieces.RedKing && pieceRow >= 0 && pieceRow < board.Count && pieceColumn >= 0 && pieceColumn < board[row].Count && board[pieceRow + 1][pieceColumn + 1] == null || board[pieceRow + 1][pieceColumn - 1] == null || board[pieceRow - 1][pieceColumn + 1] == null || board[pieceRow - 1][pieceColumn - 1] == null)
+                else if (currentPlayer == Player.Player1 && board[pieceRow][pieceColumn] == GamePieces.RedKing && pieceRow >= 0 && pieceRow < board.Count && pieceColumn >= 0 && pieceColumn < board[row].Count || board[pieceRow + 1][pieceColumn + 1] == null || board[pieceRow + 1][pieceColumn - 1] == null || board[pieceRow - 1][pieceColumn + 1] == null || board[pieceRow - 1][pieceColumn - 1] == null)
                 {
                     return true;
                 }
 
-                else if (currentPiece == GamePieces.Black && pieceRow >= 0 && pieceRow < board.Count && pieceColumn >= 0 && pieceColumn < board[row].Count && board[pieceRow + 1][pieceColumn + 1] == null || board[pieceRow + 1][pieceColumn - 1] == null)
+                else if (currentPlayer == Player.Player2 && board[pieceRow][pieceColumn] == GamePieces.Black && pieceRow >= 0 && pieceRow < board.Count && pieceColumn >= 0 && pieceColumn < board[row].Count || board[pieceRow + 1][pieceColumn + 1] == null || board[pieceRow + 1][pieceColumn - 1] == null)
                 {
                     return true;
                 }
 
-                else if (currentPiece == GamePieces.BlackKing && pieceRow >= 0 && pieceRow < board.Count && pieceColumn >= 0 && pieceColumn < board[row].Count && board[pieceRow - 1][pieceColumn + 1] == null || board[pieceRow - 1][pieceColumn - 1] == null || board[pieceRow + 1][pieceColumn + 1] == null || board[pieceRow + 1][pieceColumn - 1] == null)
+                else if (currentPlayer == Player.Player2 && board[pieceRow][pieceColumn] == GamePieces.BlackKing && pieceRow >= 0 && pieceRow < board.Count && pieceColumn >= 0 && pieceColumn < board[row].Count || board[pieceRow - 1][pieceColumn + 1] == null || board[pieceRow - 1][pieceColumn - 1] == null || board[pieceRow + 1][pieceColumn + 1] == null || board[pieceRow + 1][pieceColumn - 1] == null)
                 {
                     return true;
                 }
@@ -94,64 +95,69 @@ public class Game : Board
         }
     }
 
-    public void MovePiece(int pieceRow, int pieceColumn, int movetoRow, int moveToColumn)
+    public void MovePiece(List<List<GamePieces?>> board, int pieceRow, int pieceColumn, int moveToRow, int moveToColumn)
     {
-        if (IsMoveable(pieceRow, pieceColumn))
+        if (IsMoveable(board, pieceRow, pieceColumn))
         {
-            for (int row = 0; row < board.Count; row++)
-            {
-                for (int column = 0; column < board[row].Count; column++)
-                {
-                    board[pieceRow][pieceColumn] = null;
-                    board[movetoRow][moveToColumn] = currentPiece;
-                }
-            }
-        }
-        else if (IsJumpable(pieceRow, pieceColumn))
-        {
+            board[moveToRow][moveToColumn] = board[pieceRow][pieceColumn];
             board[pieceRow][pieceColumn] = null;
-            board[pieceRow + movetoRow / 2][pieceColumn + moveToColumn / 2] = null;
-            board[movetoRow][moveToColumn] = currentPiece;
+        }
+        else if (IsJumpable(board, pieceRow, pieceColumn, moveToRow, moveToColumn))
+        {
+            board[moveToRow][moveToColumn] = board[pieceRow][pieceColumn];
+            board[pieceRow + moveToRow / 2][pieceColumn + moveToColumn / 2] = null;
+            board[pieceRow][pieceColumn] = null;
+        }
+        else
+        {
+            UpgradeToKing(board, pieceRow, pieceColumn, moveToRow, moveToColumn);
         }
     }
 
-    public bool IsKing(int moveToRow, int moveToColumn)
+    public bool IsKing(List<List<GamePieces?>> board, int pieceRow, int pieceColumn, int moveToRow)
     {
-        if (currentPiece == GamePieces.Black && moveToRow == 7)
+        if (currentPlayer == Player.Player2 && board[pieceRow][pieceColumn] == GamePieces.Black && moveToRow == 7)
         {
             return true;
         }
-        else if (currentPiece == GamePieces.Red && moveToRow == 0)
+        else if (currentPlayer == Player.Player1 && board[pieceRow][pieceColumn] == GamePieces.Red && moveToRow == 0)
         {
             return true;
         }
         return false;
     }
 
-    public bool IsJumpable(int pieceRow, int pieceColumn)
+    public void UpgradeToKing(List<List<GamePieces?>> board, int pieceRow, int pieceColumn, int moveToRow, int moveToColumn)
+    {
+        if (IsKing(board, pieceRow, pieceColumn, moveToRow))
+        {
+            board[moveToRow][moveToColumn] = GamePieces.BlackKing;
+        }
+        else if(IsKing(board, pieceRow, pieceColumn, moveToRow))
+        {
+            board[moveToRow][moveToColumn] = GamePieces.RedKing;
+        }
+    }
+
+    public bool IsJumpable(List<List<GamePieces?>> board, int pieceRow, int pieceColumn, int moveToRow, int moveToColumn)
     {
         for (int row = 0; row < board.Count; row++)
         {
             for (int column = 0; column < board[row].Count; column++)
             {
-                if (currentPiece == GamePieces.Red && pieceRow >= 0 && pieceRow < board.Count && pieceColumn >= 0 && pieceColumn < board[row].Count && board[pieceRow - 1][pieceColumn + 1] == GamePieces.Black || board[pieceRow - 1][pieceColumn - 1] == GamePieces.Black || board[pieceRow - 1][pieceColumn + 1] == GamePieces.BlackKing || board[pieceRow - 1][pieceColumn - 1] == GamePieces.BlackKing)
-                {
-                    if (board[pieceRow - 2][pieceColumn + 2] == null || board[pieceRow - 2][pieceColumn - 2] == null)
-                    {
-                        return true;
-                    }
-                }
-                else if (currentPiece == GamePieces.RedKing && pieceRow >= 0 && pieceRow < board.Count && pieceColumn >= 0 && pieceColumn < board[row].Count && board[pieceRow + 1][pieceColumn + 1] == null || board[pieceRow + 1][pieceColumn - 1] == null || board[pieceRow - 1][pieceColumn + 1] == null || board[pieceRow - 1][pieceColumn - 1] == null)
+                if (currentPlayer == Player.Player1 && board[pieceRow][pieceColumn] == GamePieces.Red && pieceRow >= 0 && pieceRow < board.Count && pieceColumn >= 0 && pieceColumn < board[row].Count && board[pieceRow - 1][pieceColumn + 1] == GamePieces.Black || board[pieceRow - 1][pieceColumn - 1] == GamePieces.Black || board[pieceRow - 1][pieceColumn + 1] == GamePieces.BlackKing || board[pieceRow - 1][pieceColumn - 1] == GamePieces.BlackKing && board[moveToRow][moveToColumn] == null || board[moveToRow][moveToColumn] == null)
                 {
                     return true;
                 }
-
-                else if (currentPiece == GamePieces.Black && pieceRow >= 0 && pieceRow < board.Count && pieceColumn >= 0 && pieceColumn < board[row].Count && board[pieceRow + 1][pieceColumn + 1] == null || board[pieceRow + 1][pieceColumn - 1] == null)
+                else if (currentPlayer == Player.Player1 && board[pieceRow][pieceColumn] == GamePieces.RedKing && pieceRow >= 0 && pieceRow < board.Count && pieceColumn >= 0 && pieceColumn < board[row].Count && board[pieceRow + 1][pieceColumn + 1] == GamePieces.Black || board[pieceRow + 1][pieceColumn - 1] == GamePieces.Black || board[pieceRow - 1][pieceColumn + 1] == GamePieces.Black || board[pieceRow - 1][pieceColumn - 1] == GamePieces.Black || board[pieceRow + 1][pieceColumn + 1] == GamePieces.BlackKing || board[pieceRow + 1][pieceColumn - 1] == GamePieces.BlackKing || board[pieceRow - 1][pieceColumn + 1] == GamePieces.BlackKing || board[pieceRow - 1][pieceColumn - 1] == GamePieces.BlackKing && board[moveToRow][moveToColumn] == null || board[moveToRow][moveToColumn] == null || board[moveToRow][moveToColumn] == null || board[moveToRow][moveToColumn] == null)
                 {
                     return true;
                 }
-
-                else if (currentPiece == GamePieces.BlackKing && pieceRow >= 0 && pieceRow < board.Count && pieceColumn >= 0 && pieceColumn < board[row].Count && board[pieceRow - 1][pieceColumn + 1] == null || board[pieceRow - 1][pieceColumn - 1] == null || board[pieceRow + 1][pieceColumn + 1] == null || board[pieceRow + 1][pieceColumn - 1] == null)
+                else if (currentPlayer == Player.Player2 && board[pieceRow][pieceColumn] == GamePieces.Black && pieceRow >= 0 && pieceRow < board.Count && pieceColumn >= 0 && pieceColumn < board[row].Count && board[pieceRow + 1][pieceColumn + 1] == GamePieces.Red || board[pieceRow + 1][pieceColumn - 1] == GamePieces.Red || board[pieceRow + 1][pieceColumn + 1] == GamePieces.RedKing || board[pieceRow + 1][pieceColumn - 1] == GamePieces.RedKing && board[pieceRow + 2][pieceColumn + 2] == null || board[pieceRow + 2][pieceColumn - 2] == null)
+                {
+                    return true;
+                }
+                else if (currentPlayer == Player.Player2 && board[pieceRow][pieceColumn] == GamePieces.BlackKing && pieceRow >= 0 && pieceRow < board.Count && pieceColumn >= 0 && pieceColumn < board[row].Count && board[pieceRow + 1][pieceColumn + 1] == GamePieces.Red || board[pieceRow + 1][pieceColumn - 1] == GamePieces.Red || board[pieceRow - 1][pieceColumn + 1] == GamePieces.Red || board[pieceRow - 1][pieceColumn - 1] == GamePieces.Red || board[pieceRow + 1][pieceColumn + 1] == GamePieces.RedKing || board[pieceRow + 1][pieceColumn - 1] == GamePieces.RedKing || board[pieceRow - 1][pieceColumn + 1] == GamePieces.RedKing || board[pieceRow - 1][pieceColumn - 1] == GamePieces.RedKing && board[moveToRow][moveToColumn] == null || board[moveToRow][moveToColumn] == null || board[moveToRow][moveToColumn] == null || board[moveToRow][moveToColumn] == null)
                 {
                     return true;
                 }
@@ -162,11 +168,13 @@ public class Game : Board
 
     public void PlayGame()
     {
-        while (!IsGameOver())
+        while (true)//!IsGameOver(board.board))
         {
+            board.PrintBoard();
             (int pieceRow, int pieceColumn) = uI.GetUserPieceCoordinates();
             (int moveToRow, int moveToColumn) = uI.GetUserEmptyCoordinates();
-            MovePiece(pieceRow, pieceColumn, moveToRow, moveToColumn);
+            MovePiece(board.board, pieceRow, pieceColumn, moveToRow, moveToColumn);
+            SwitchPlayer();
 
         }
         Console.Clear();
@@ -179,22 +187,22 @@ public class Game : Board
 
     }
 
-    public void AddScores()
-    {
-        if (IsGameOver())
-        {
-            scores[player1] = PointsBlack;
-            scores[player2] = PointsRed;
-        }
-    }
+    // public void AddScores()
+    // {
+    //     if (IsGameOver())
+    //     {
+    //         scores[player1] = PointsBlack;
+    //         scores[player2] = PointsRed;
+    //     }
+    // }
 
-    public void PrintScores()
-    {
-        foreach (var score in scores)
-        {
-            Console.WriteLine(score);
-        }
-    }
+    // public void PrintScores()
+    // {
+    //     foreach (var score in scores)
+    //     {
+    //         Console.WriteLine(score);
+    //     }
+    // }
 
     // public void SaveScores()
     // {

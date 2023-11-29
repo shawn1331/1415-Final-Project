@@ -51,7 +51,7 @@ public struct UserInput : IUserInput
         return (userRowToMoveTo, userColumnToMoveTo);
     }
 
-    public (string, string) GetUserName()
+    public (string?, string?) GetUserName()
     {
         Console.Write("Player1 please enter your name: ");
         string? userName1 = Console.ReadLine();

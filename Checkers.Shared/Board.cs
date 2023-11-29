@@ -1,7 +1,7 @@
 using System.Text;
-public class Board 
+public class Board
 {
-    public List<List<GamePieces?>> board { get; } = new List<List<GamePieces?>>
+    public List<List<GamePieces?>> board = new List<List<GamePieces?>>
     {
         new List<GamePieces?>()  {null, GamePieces.Black, null, GamePieces.Black, null, GamePieces.Black, null, GamePieces.Black },
         new List<GamePieces?>()  {GamePieces.Black, null, GamePieces.Black, null, GamePieces.Black, null, GamePieces.Black, null},
@@ -13,9 +13,24 @@ public class Board
         new List<GamePieces?>()  {GamePieces.Red, null, GamePieces.Red, null, GamePieces.Red, null, GamePieces.Red, null}
     };
 
+    // public Board()
+    // {
+    //     board = new List<List<GamePieces?>>
+    // {
+    //     new List<GamePieces?>()  {null, GamePieces.Black, null, GamePieces.Black, null, GamePieces.Black, null, GamePieces.Black },
+    //     new List<GamePieces?>()  {GamePieces.Black, null, GamePieces.Black, null, GamePieces.Black, null, GamePieces.Black, null},
+    //     new List<GamePieces?>()  {null, GamePieces.Black, null, GamePieces.Black, null, GamePieces.Black, null, GamePieces.Black},
+    //     new List<GamePieces?>()  {null, null, null, null, null, null, null, null},
+    //     new List<GamePieces?>()  {null, null, null, null, null, null, null, null},
+    //     new List<GamePieces?>()  {GamePieces.Red, null, GamePieces.Red, null, GamePieces.Red, null, GamePieces.Red, null},
+    //     new List<GamePieces?>()  {null, GamePieces.Red, null, GamePieces.Red, null, GamePieces.Red, null, GamePieces.Red},
+    //     new List<GamePieces?>()  {GamePieces.Red, null, GamePieces.Red, null, GamePieces.Red, null, GamePieces.Red, null}
+    // };
+    // }
+
     public string GamePiecesToString(GamePieces? currentPiece)
     {
-        return currentPiece?.ToString()?? "  ";
+        return currentPiece?.ToString() ?? "  ";
         // for (int i = 0; i < board.Count; i++)
         // {
         //     for (int j = 0; j < board[i].Count; j++)
@@ -77,9 +92,10 @@ public class Board
         {
             Console.Write(checkerBoard[i]);
         }
+        Console.Write("\n");
     }
 
-   
+
 }
-    
+
 

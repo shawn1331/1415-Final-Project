@@ -52,7 +52,7 @@ public class BoardTests
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
         expected.Append("7|🔴|  |🔴|  |🔴|  |🔴|  |" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+");
-        Console.WriteLine(expected.ToString());
-        board.PrintBoard();
+        // Console.WriteLine(expected.ToString());
+        // board.PrintBoard();
     }
 }
