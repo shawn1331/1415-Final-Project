@@ -1,4 +1,4 @@
-public struct UserInput : IUserInput
+public struct UserInput : IUserInput  // use of a struct
 {
 
     public int GetUserMenuSelection()

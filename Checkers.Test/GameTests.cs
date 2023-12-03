@@ -1,6 +1,6 @@
 namespace Checkers.Test;
 using System.Text;
-public class GameTests
+public class GameTests // There are 23 total tests
 {
 
     [Test]
@@ -15,59 +15,57 @@ public class GameTests
         Board board = new Board();
         Game game = new Game();
         StringBuilder expected = new StringBuilder();
-        expected.Append("  0  1  2  3  4  5  6  7" + Environment.NewLine);
+        expected.Append("   1  2  3  4  5  6  7  8" + Environment.NewLine);
+        expected.Append(" +--+--+--+--+--+--+--+--+--+--+" + Environment.NewLine);
+        expected.Append("1|  |⚫|  |⚫|  |⚫|  |⚫|" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("0|  |⚫|  |⚫|  |⚫|  |⚫|" + Environment.NewLine);
+        expected.Append("2|⚫|  |⚫|  |⚫|  |⚫|  |" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("1|⚫|  |⚫|  |⚫|  |⚫|  |" + Environment.NewLine);
-        expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("2|  |⚫|  |⚫|  |⚫|  |⚫|" + Environment.NewLine);
-        expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("3|  |  |  |  |  |  |  |  |" + Environment.NewLine);
+        expected.Append("3|  |⚫|  |⚫|  |⚫|  |⚫|" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
         expected.Append("4|  |  |  |  |  |  |  |  |" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("5|🔴|  |🔴|  |🔴|  |🔴|  |" + Environment.NewLine);
+        expected.Append("5|  |  |  |  |  |  |  |  |" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("6|  |🔴|  |🔴|  |🔴|  |🔴|" + Environment.NewLine);
+        expected.Append("6|🔴|  |🔴|  |🔴|  |🔴|  |" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("7|🔴|  |🔴|  |🔴|  |🔴|  |" + Environment.NewLine);
-        expected.Append(" +--+--+--+--+--+--+--+--+");
-        Assert.IsTrue(game.IsMoveable(board.board, 5, 0), "The piece at 5,0 is moveable");
+        expected.Append("7|  |🔴|  |🔴|  |🔴|  |🔴|" + Environment.NewLine);
+        expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
+        expected.Append("8|🔴|  |🔴|  |🔴|  |🔴|  |" + Environment.NewLine);
+        expected.Append(" +--+--+--+--+--+--+--+--+--+--+");
+        Assert.IsTrue(game.IsMoveable(6, 1, 5, 2), "The piece at 6,1 is moveable");
     }
 
-      [Test]
+    [Test]
     public void TestIsJumpable()
     {
         Board board = new Board();
         Game game = new Game();
         StringBuilder expected = new StringBuilder();
-        expected.Append("  0  1  2  3  4  5  6  7" + Environment.NewLine);
+        expected.Append("   1  2  3  4  5  6  7  8" + Environment.NewLine);
+        expected.Append(" +--+--+--+--+--+--+--+--+--+--+" + Environment.NewLine);
+        expected.Append("1|  |⚫|  |⚫|  |⚫|  |⚫|" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("0|  |⚫|  |⚫|  |⚫|  |⚫|" + Environment.NewLine);
+        expected.Append("2|⚫|  |⚫|  |⚫|  |⚫|  |" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("1|⚫|  |⚫|  |⚫|  |⚫|  |" + Environment.NewLine);
+        expected.Append("3|  |  |  |⚫|  |⚫|  |⚫|" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("2|  |  |  |⚫|  |⚫|  |⚫|" + Environment.NewLine);
+        expected.Append("4|  |  |⚫|  |  |  |  |  |" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("3|  |  |⚫|  |  |  |  |  |" + Environment.NewLine);
+        expected.Append("5|  |🔴|  |🔴|  |  |  |  |" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("4|  |🔴|  |🔴|  |  |  |  |" + Environment.NewLine);
+        expected.Append("6|  |  |  |  |🔴|  |🔴|  |" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("5|  |  |  |  |🔴|  |🔴|  |" + Environment.NewLine);
+        expected.Append("7|  |🔴|  |🔴|  |🔴|  |🔴|" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("6|  |🔴|  |🔴|  |🔴|  |🔴|" + Environment.NewLine);
-        expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("7|🔴|  |🔴|  |🔴|  |🔴|  |" + Environment.NewLine);
-        expected.Append(" +--+--+--+--+--+--+--+--+");
+        expected.Append("8|🔴|  |🔴|  |🔴|  |🔴|  |" + Environment.NewLine);
+        expected.Append(" +--+--+--+--+--+--+--+--+--+--+");
         game.currentPlayer = Player.Player1;
-        game.MovePiece(board.board,5,0,4,1);
-        game.SwitchPlayer();
-        game.MovePiece(board.board, 2,1,3,2);
-        game.SwitchPlayer();
-        game.MovePiece(board.board, 5,2,4,3);
-        game.SwitchPlayer();
-        Assert.IsTrue(game.IsJumpable(board.board, 4,1,5,0), "The piece at 4,1 is jumpable");
+        game.MovePiece(6, 1, 5, 2);
+        game.MovePiece(3, 2, 4, 3);
+        game.MovePiece(6, 3, 5, 4);
+        game.MovePiece(4,3,6,1);
+        Assert.IsTrue(game.IsJumpable(4, 3, 6, 1), "The piece at 5,2 is jumpable");
     }
 
     [Test]
@@ -81,7 +79,7 @@ public class GameTests
     {
         Board board = new Board();
         Game game = new Game();
-        Assert.IsFalse(!game.IsGameOver(board.board), "The game is not over");
+        Assert.IsFalse(!game.IsGameOver(), "The game is not over");
     }
 
     [Test]
@@ -98,26 +96,26 @@ public class GameTests
         Board board = new Board();
         Game game = new Game();
         StringBuilder expected = new StringBuilder();
-        expected.Append("  0  1  2  3  4  5  6  7" + Environment.NewLine);
+        expected.Append("   1  2  3  4  5  6  7  8" + Environment.NewLine);
+        expected.Append(" +--+--+--+--+--+--+--+--+--+--+" + Environment.NewLine);
+        expected.Append("1|  |⚫|  |⚫|  |⚫|  |⚫|" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("0|  |⚫|  |⚫|  |⚫|  |⚫|" + Environment.NewLine);
+        expected.Append("2|⚫|  |⚫|  |⚫|  |⚫|  |" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("1|⚫|  |⚫|  |⚫|  |⚫|  |" + Environment.NewLine);
+        expected.Append("3|  |⚫|  |⚫|  |⚫|  |⚫|" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("2|  |⚫|  |⚫|  |⚫|  |⚫|" + Environment.NewLine);
+        expected.Append("4|  |  |  |  |  |  |  |  |" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("3|  |  |  |  |  |  |  |  |" + Environment.NewLine);
+        expected.Append("5|  |🔴|  |  |  |  |  |  |" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("4|  |🔴|  |  |  |  |  |  |" + Environment.NewLine);
+        expected.Append("6|  |  |🔴|  |🔴|  |🔴|  |" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("5|  |  |🔴|  |🔴|  |🔴|  |" + Environment.NewLine);
+        expected.Append("7|  |🔴|  |🔴|  |🔴|  |🔴|" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("6|  |🔴|  |🔴|  |🔴|  |🔴|" + Environment.NewLine);
-        expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("7|🔴|  |🔴|  |🔴|  |🔴|  |" + Environment.NewLine);
-        expected.Append(" +--+--+--+--+--+--+--+--+");
+        expected.Append("8|🔴|  |🔴|  |🔴|  |🔴|  |" + Environment.NewLine);
+        expected.Append(" +--+--+--+--+--+--+--+--+--+--+");
         game.currentPlayer = Player.Player1;
-        game.MovePiece(board.board, 5, 0, 4, 1);
+        game.MovePiece(6, 1, 5, 2);
         string checkerBoard = board.BoardAsString();
         Assert.AreEqual(expected.ToString(), checkerBoard);
     }
@@ -128,28 +126,27 @@ public class GameTests
         Board board = new Board();
         Game game = new Game();
         StringBuilder expected = new StringBuilder();
-        expected.Append("  0  1  2  3  4  5  6  7" + Environment.NewLine);
+        expected.Append("   1  2  3  4  5  6  7  8" + Environment.NewLine);
+        expected.Append(" +--+--+--+--+--+--+--+--+--+--+" + Environment.NewLine);
+        expected.Append("1|  |⚫|  |⚫|  |⚫|  |⚫|" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("0|  |⚫|  |⚫|  |⚫|  |⚫|" + Environment.NewLine);
+        expected.Append("2|⚫|  |⚫|  |⚫|  |⚫|  |" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("1|⚫|  |⚫|  |⚫|  |⚫|  |" + Environment.NewLine);
+        expected.Append("3|  |  |  |⚫|  |⚫|  |⚫|" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("2|  |  |  |⚫|  |⚫|  |⚫|" + Environment.NewLine);
+        expected.Append("4|⚫|  |  |  |  |  |  |  |" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("3|⚫|  |  |  |  |  |  |  |" + Environment.NewLine);
+        expected.Append("5|  |🔴|  |  |  |  |  |  |" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("4|  |🔴|  |  |  |  |  |  |" + Environment.NewLine);
+        expected.Append("6|  |  |🔴|  |🔴|  |🔴|  |" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("5|  |  |🔴|  |🔴|  |🔴|  |" + Environment.NewLine);
+        expected.Append("7|  |🔴|  |🔴|  |🔴|  |🔴|" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("6|  |🔴|  |🔴|  |🔴|  |🔴|" + Environment.NewLine);
-        expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("7|🔴|  |🔴|  |🔴|  |🔴|  |" + Environment.NewLine);
-        expected.Append(" +--+--+--+--+--+--+--+--+");
+        expected.Append("8|🔴|  |🔴|  |🔴|  |🔴|  |" + Environment.NewLine);
+        expected.Append(" +--+--+--+--+--+--+--+--+--+--+");
         game.currentPlayer = Player.Player1;
-        game.MovePiece(board.board, 5, 0, 4, 1);
-        game.SwitchPlayer();
-        game.MovePiece(board.board, 2,1,3,0);
+        game.MovePiece(6, 1, 5, 2);
+        game.MovePiece(3, 2, 4, 1);
         string checkerBoard = board.BoardAsString();
         Assert.AreEqual(expected.ToString(), checkerBoard);
     }
@@ -157,37 +154,33 @@ public class GameTests
     [Test]
     public void TestJumpsRed()
     {
-         Board board = new Board();
+        Board board = new Board();
         Game game = new Game();
         StringBuilder expected = new StringBuilder();
-        expected.Append("  0  1  2  3  4  5  6  7" + Environment.NewLine);
+        expected.Append("   1  2  3  4  5  6  7  8" + Environment.NewLine);
+        expected.Append(" +--+--+--+--+--+--+--+--+--+--+" + Environment.NewLine);
+        expected.Append("1|  |⚫|  |⚫|  |⚫|  |⚫|" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("0|  |⚫|  |⚫|  |⚫|  |⚫|" + Environment.NewLine);
+        expected.Append("2|⚫|  |⚫|  |⚫|  |⚫|  |" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("1|⚫|  |⚫|  |⚫|  |⚫|  |" + Environment.NewLine);
+        expected.Append("3|  |🔴|  |  |  |⚫|  |⚫|" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("2|  |🔴|  |  |  |⚫|  |⚫|" + Environment.NewLine);
+        expected.Append("4|⚫|  |  |  |  |  |  |  |" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("3|⚫|  |  |  |  |  |  |  |" + Environment.NewLine);
+        expected.Append("5|  |🔴|  |  |  |  |  |  |" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("4|  |🔴|  |  |  |  |  |  |" + Environment.NewLine);
+        expected.Append("6|  |  |  |  |🔴|  |🔴|  |" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("5|  |  |  |  |🔴|  |🔴|  |" + Environment.NewLine);
+        expected.Append("7|  |🔴|  |🔴|  |🔴|  |🔴|" + Environment.NewLine);
         expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("6|  |🔴|  |🔴|  |🔴|  |🔴|" + Environment.NewLine);
-        expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
-        expected.Append("7|🔴|  |🔴|  |🔴|  |🔴|  |" + Environment.NewLine);
-        expected.Append(" +--+--+--+--+--+--+--+--+");
+        expected.Append("8|🔴|  |🔴|  |🔴|  |🔴|  |" + Environment.NewLine);
+        expected.Append(" +--+--+--+--+--+--+--+--+--+--+");
         game.currentPlayer = Player.Player1;
-        game.MovePiece(board.board, 5, 0, 4, 1);
-        game.SwitchPlayer();
-        game.MovePiece(board.board, 2,1,3,0);
-        game.SwitchPlayer();
-        game.MovePiece(board.board, 5,2,4,3);
-        game.SwitchPlayer();
-        game.MovePiece(board.board, 2,3,3,2);
-        game.SwitchPlayer();
-        game.MovePiece(board.board, 4,3,2,1);
+        game.MovePiece(6, 1, 5, 2);
+        game.MovePiece(3, 2, 4, 1);
+        game.MovePiece(6, 3, 5, 4);
+        game.MovePiece(3, 4, 4, 3);
+        game.MovePiece(5, 4, 3, 2);
         string checkerBoard = board.BoardAsString();
         Assert.AreEqual(expected.ToString(), checkerBoard);
     }
@@ -208,5 +201,49 @@ public class GameTests
     public void TestMultipleJumpsBlack()
     {
 
+    }
+
+    [Test]
+    public void TestUpgradeToKing()
+    {
+        Board board = new Board();
+        Game game = new Game();
+        StringBuilder expected = new StringBuilder();
+        expected.Append("   1  2  3  4  5  6  7  8" + Environment.NewLine);
+        expected.Append(" +--+--+--+--+--+--+--+--+--+--+" + Environment.NewLine);
+        expected.Append("1|  |🟥|  |⚫|  |⚫|  |⚫|" + Environment.NewLine);
+        expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
+        expected.Append("2|⚫|  |  |  |⚫|  |⚫|  |" + Environment.NewLine);
+        expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
+        expected.Append("3|  |  |  |  |  |⚫|  |⚫|" + Environment.NewLine);
+        expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
+        expected.Append("4|⚫|  |  |  |⚫|  |  |  |" + Environment.NewLine);
+        expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
+        expected.Append("5|  |🔴|  |  |  |  |  |🔴|" + Environment.NewLine);
+        expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
+        expected.Append("6|  |  |  |  |  |  |  |  |" + Environment.NewLine);
+        expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
+        expected.Append("7|  |🔴|  |🔴|  |🔴|  |🔴|" + Environment.NewLine);
+        expected.Append(" +--+--+--+--+--+--+--+--+" + Environment.NewLine);
+        expected.Append("8|🔴|  |🔴|  |🔴|  |🔴|  |" + Environment.NewLine);
+        expected.Append(" +--+--+--+--+--+--+--+--+--+--+");
+        game.currentPlayer = Player.Player1;
+        game.MovePiece(6,1,5,2);
+        game.MovePiece(3,2,4,1);
+        game.MovePiece(6,3,5,4);
+        game.MovePiece(3,4,4,3);
+        game.MovePiece(5,4,3,2);
+        game.MovePiece(2,3,3,4);
+        game.MovePiece(6,5,5,6);
+        game.MovePiece(3,4,4,5);
+        game.MovePiece(6,7,5,8);
+        game.MovePiece(1,2,2,3);
+        game.MovePiece(5,6,3,4);
+        game.MovePiece(2,3,4,5);
+        game.MovePiece(3,2,2,3);
+        game.MovePiece(4,5,5,4);
+        game.MovePiece(2,3,1,2);
+        string checkerBoard = board.BoardAsString();
+        Assert.AreEqual(expected.ToString(), checkerBoard);
     }
 }

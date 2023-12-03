@@ -1,4 +1,4 @@
-public interface IUserInput
+public interface IUserInput   // an interface
 {
     public int GetUserMenuSelection();
     public (int,int) GetUserPieceCoordinates();
