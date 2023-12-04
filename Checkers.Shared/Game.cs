@@ -1,13 +1,11 @@
-public class Game : Board // 2nd class
+public class Game : Board // 2nd class Inheritance
 {
     public Player currentPlayer = Player.Player1;
     public GamePieces? currentPiece;
     private bool Player1Turn { get; set; } = true;
     public int PointsRed { get; private set; }
     public int PointsBlack { get; private set; }
-    private Dictionary<string, int> scores = new();
-    UserInput uI = new();
-
+    private Dictionary<string, int> Leaderboard = new();
     public void PrintMenu()
     {
         Console.WriteLine(@"Welcome to Checkers! Would you like to: 
@@ -56,34 +54,34 @@ public class Game : Board // 2nd class
 
     public bool IsMoveable(int pieceRow, int pieceColumn, int moveToRow, int moveToColumn)
     {
-        if (pieceRow < 1 || pieceColumn < 1 || pieceRow > 8 || pieceColumn > 8)
+        if (pieceRow < 0 || pieceColumn < 0 || pieceRow > 7 || pieceColumn > 7)
         {
             return false;
         }
-        else if (moveToRow < 1 || moveToColumn < 1 || moveToRow > 8 || moveToColumn > 8)
+        else if (moveToRow < 0 || moveToColumn < 0 || moveToRow > 7 || moveToColumn > 7)
         {
             return false;
         }
-        else if (Player1Turn == true && board[pieceRow][pieceColumn] == GamePieces.Red && board[moveToRow][moveToColumn] == null && (board[pieceRow - 1][pieceColumn - 1] == board[moveToRow][moveToColumn] || board[pieceRow - 1][pieceColumn + 1] == board[moveToRow][moveToColumn]))
+        else if (Player1Turn == true && board[pieceRow][pieceColumn] == GamePieces.Red && board[moveToRow][moveToColumn] == null && pieceRow - 1 == moveToRow && (pieceColumn - 1 == moveToColumn || pieceColumn + 1 == moveToColumn))
         {
             return true;
         }
-        else if (Player1Turn == true && board[pieceRow][pieceColumn] == GamePieces.RedKing && board[moveToRow][moveToColumn] == null && (board[pieceRow + 1][pieceColumn + 1] == board[moveToRow][moveToColumn] || board[pieceRow + 1][pieceColumn - 1] == board[moveToRow][moveToColumn] || board[pieceRow - 1][pieceColumn + 1] == board[moveToRow][moveToColumn] || board[pieceRow - 1][pieceColumn - 1] == board[moveToRow][moveToColumn]))
+        else if (Player1Turn == true && board[pieceRow][pieceColumn] == GamePieces.RedKing && board[moveToRow][moveToColumn] == null && (pieceRow - 1 == moveToRow || pieceRow + 1 == moveToRow) && (pieceColumn - 1 == moveToColumn || pieceColumn + 1 == moveToColumn))
         {
             return true;
         }
-        else if (Player1Turn == false && board[pieceRow][pieceColumn] == GamePieces.Black && board[moveToRow][moveToColumn] == null && (board[pieceRow + 1][pieceColumn + 1] == board[moveToRow][moveToColumn] || board[pieceRow + 1][pieceColumn - 1] == board[moveToRow][moveToColumn]))
+        else if (Player1Turn == false && board[pieceRow][pieceColumn] == GamePieces.Black && board[moveToRow][moveToColumn] == null && pieceRow + 1 == moveToRow && (pieceColumn + 1 == moveToColumn || pieceColumn - 1 == moveToColumn))
         {
             return true;
         }
-        else if (Player1Turn == false && board[pieceRow][pieceColumn] == GamePieces.BlackKing && board[moveToRow][moveToColumn] == null && (board[pieceRow - 1][pieceColumn + 1] == board[moveToRow][moveToColumn] || board[pieceRow - 1][pieceColumn - 1] == board[moveToRow][moveToColumn] || board[pieceRow + 1][pieceColumn + 1] == board[moveToRow][moveToColumn] || board[pieceRow + 1][pieceColumn - 1] == board[moveToRow][moveToColumn]))
+        else if (Player1Turn == false && board[pieceRow][pieceColumn] == GamePieces.BlackKing && board[moveToRow][moveToColumn] == null && (pieceRow + 1 == moveToRow || pieceRow - 1 == moveToRow) && (pieceColumn + 1 == moveToColumn || pieceColumn - 1 == moveToColumn))
         {
             return true;
         }
         return false;
     }
 
-    public void SwitchPlayer()
+    private void SwitchPlayer()
     {
         if (currentPlayer == Player.Player1)
         {
@@ -112,7 +110,7 @@ public class Game : Board // 2nd class
         }
         else if (IsJumpable(pieceRow, pieceColumn, moveToRow, moveToColumn) && IsMoveable(pieceRow, pieceColumn, moveToRow, moveToColumn))
         {
-            if (board[pieceRow + 2][pieceColumn + 2] == board[moveToRow][moveToColumn] || board[pieceRow + 2][pieceColumn - 2] == board[moveToRow][moveToColumn] || board[pieceRow - 2][pieceColumn - 2] == board[moveToRow][moveToColumn] || board[pieceRow - 2][pieceColumn + 2] == board[moveToRow][moveToColumn])
+            if ((pieceRow + 2 == moveToRow || pieceRow - 2 == moveToRow) && (pieceColumn + 2 == moveToColumn || pieceColumn - 2 == moveToColumn))
             {
                 board[moveToRow][moveToColumn] = board[pieceRow][pieceColumn];
                 board[(pieceRow + moveToRow) / 2][(pieceColumn + moveToColumn) / 2] = null;
@@ -128,7 +126,7 @@ public class Game : Board // 2nd class
         SwitchPlayer();
     }
 
-    public bool IsKing(int pieceRow, int pieceColumn, int moveToRow, int moveToColumn)
+    private bool IsKing(int moveToRow)
     {
         if (Player1Turn == false && moveToRow == 8)
         {
@@ -141,13 +139,13 @@ public class Game : Board // 2nd class
         return false;
     }
 
-    public void UpgradeToKing(int pieceRow, int pieceColumn, int moveToRow, int moveToColumn)
+    private void UpgradeToKing(int pieceRow, int pieceColumn, int moveToRow, int moveToColumn)
     {
-        if (IsKing(pieceRow, pieceColumn, moveToRow, moveToColumn))
+        if (IsKing(moveToRow))
         {
             board[moveToRow][moveToColumn] = GamePieces.BlackKing;
         }
-        else if (IsKing(pieceRow, pieceColumn, moveToRow, moveToColumn))
+        else if (IsKing(moveToRow))
         {
             board[moveToRow][moveToColumn] = GamePieces.RedKing;
         }
@@ -155,32 +153,32 @@ public class Game : Board // 2nd class
 
     public bool IsJumpable(int pieceRow, int pieceColumn, int moveToRow, int moveToColumn)
     {
-        if (pieceRow < 1 || pieceColumn < 1 || pieceRow > 8 || pieceColumn > 8)
+        if (pieceRow < 0 || pieceColumn < 0 || pieceRow > 7 || pieceColumn > 7)
         {
             return false;
         }
 
-        else if (moveToRow < 1 || moveToColumn < 1 || moveToRow > 8 || moveToColumn > 8)
+        else if (moveToRow < 0 || moveToColumn < 0 || moveToRow > 7 || moveToColumn > 7)
         {
             return false;
         }
 
-        else if (Player1Turn == true && board[pieceRow][pieceColumn] == GamePieces.Red && (board[pieceRow - 1][pieceColumn + 1] == GamePieces.Black || board[pieceRow - 1][pieceColumn - 1] == GamePieces.Black || board[pieceRow - 1][pieceColumn + 1] == GamePieces.BlackKing || board[pieceRow - 1][pieceColumn - 1] == GamePieces.BlackKing) && board[moveToRow][moveToColumn] == null && (board[moveToRow][moveToColumn] == board[pieceRow - 2][pieceColumn + 2] || board[moveToRow][moveToColumn] == board[pieceRow - 2][pieceColumn - 2]))
+        else if (Player1Turn == true && board[pieceRow][pieceColumn] == GamePieces.Red && (board[pieceRow - 1][pieceColumn + 1] == GamePieces.Black || board[pieceRow - 1][pieceColumn - 1] == GamePieces.Black || board[pieceRow - 1][pieceColumn + 1] == GamePieces.BlackKing || board[pieceRow - 1][pieceColumn - 1] == GamePieces.BlackKing) && board[moveToRow][moveToColumn] == null && pieceRow - 2 == moveToRow && (pieceColumn - 2 == moveToColumn || pieceColumn + 2 == moveToColumn))
         {
             return true;
         }
 
-        else if (Player1Turn == true && board[pieceRow][pieceColumn] == GamePieces.RedKing && (board[pieceRow + 1][pieceColumn + 1] == GamePieces.Black || board[pieceRow + 1][pieceColumn - 1] == GamePieces.Black || board[pieceRow - 1][pieceColumn + 1] == GamePieces.Black || board[pieceRow - 1][pieceColumn - 1] == GamePieces.Black || board[pieceRow + 1][pieceColumn + 1] == GamePieces.BlackKing || board[pieceRow + 1][pieceColumn - 1] == GamePieces.BlackKing || board[pieceRow - 1][pieceColumn + 1] == GamePieces.BlackKing || board[pieceRow - 1][pieceColumn - 1] == GamePieces.BlackKing) && board[moveToRow][moveToColumn] == null && (board[moveToRow][moveToColumn] == board[pieceRow + 2][pieceColumn + 2] || board[moveToRow][moveToColumn] == board[pieceRow + 2][pieceColumn - 2] || board[moveToRow][moveToColumn] == board[pieceRow - 2][pieceColumn + 2] || board[moveToRow][moveToColumn] == board[pieceRow - 2][pieceColumn - 2]))
+        else if (Player1Turn == true && board[pieceRow][pieceColumn] == GamePieces.RedKing && (board[pieceRow + 1][pieceColumn + 1] == GamePieces.Black || board[pieceRow + 1][pieceColumn - 1] == GamePieces.Black || board[pieceRow - 1][pieceColumn + 1] == GamePieces.Black || board[pieceRow - 1][pieceColumn - 1] == GamePieces.Black || board[pieceRow + 1][pieceColumn + 1] == GamePieces.BlackKing || board[pieceRow + 1][pieceColumn - 1] == GamePieces.BlackKing || board[pieceRow - 1][pieceColumn + 1] == GamePieces.BlackKing || board[pieceRow - 1][pieceColumn - 1] == GamePieces.BlackKing) && board[moveToRow][moveToColumn] == null && (pieceRow + 2 == moveToRow || pieceRow - 2 == moveToRow) && (pieceColumn + 2 == moveToColumn || pieceColumn - 2 == moveToColumn))
         {
             return true;
         }
 
-        else if (Player1Turn == false && board[pieceRow][pieceColumn] == GamePieces.Black && (board[pieceRow + 1][pieceColumn + 1] == GamePieces.Red || board[pieceRow + 1][pieceColumn - 1] == GamePieces.Red || board[pieceRow + 1][pieceColumn + 1] == GamePieces.RedKing || board[pieceRow + 1][pieceColumn - 1] == GamePieces.RedKing) && board[moveToRow][moveToColumn] == null && (board[pieceRow + 2][pieceColumn + 2] == board[moveToRow][moveToColumn] || board[pieceRow + 2][pieceColumn - 2] == board[moveToRow][moveToColumn]))
+        else if (Player1Turn == false && board[pieceRow][pieceColumn] == GamePieces.Black && (board[pieceRow + 1][pieceColumn + 1] == GamePieces.Red || board[pieceRow + 1][pieceColumn - 1] == GamePieces.Red || board[pieceRow + 1][pieceColumn + 1] == GamePieces.RedKing || board[pieceRow + 1][pieceColumn - 1] == GamePieces.RedKing) && board[moveToRow][moveToColumn] == null && pieceRow + 2 == moveToRow && (pieceColumn - 2 == moveToColumn || pieceColumn + 2 == moveToColumn))
         {
             return true;
         }
 
-        else if (Player1Turn == false && board[pieceRow][pieceColumn] == GamePieces.BlackKing && (board[pieceRow + 1][pieceColumn + 1] == GamePieces.Red || board[pieceRow + 1][pieceColumn - 1] == GamePieces.Red || board[pieceRow - 1][pieceColumn + 1] == GamePieces.Red || board[pieceRow - 1][pieceColumn - 1] == GamePieces.Red || board[pieceRow + 1][pieceColumn + 1] == GamePieces.RedKing || board[pieceRow + 1][pieceColumn - 1] == GamePieces.RedKing || board[pieceRow - 1][pieceColumn + 1] == GamePieces.RedKing || board[pieceRow - 1][pieceColumn - 1] == GamePieces.RedKing) && board[moveToRow][moveToColumn] == null && (board[moveToRow][moveToColumn] == board[pieceRow + 2][pieceColumn + 2] || board[moveToRow][moveToColumn] == board[pieceRow + 2][pieceColumn - 2] || board[moveToRow][moveToColumn] == board[pieceRow - 2][pieceColumn + 2] || board[moveToRow][moveToColumn] == board[pieceRow - 2][pieceColumn - 2]))
+        else if (Player1Turn == false && board[pieceRow][pieceColumn] == GamePieces.BlackKing && (board[pieceRow + 1][pieceColumn + 1] == GamePieces.Red || board[pieceRow + 1][pieceColumn - 1] == GamePieces.Red || board[pieceRow - 1][pieceColumn + 1] == GamePieces.Red || board[pieceRow - 1][pieceColumn - 1] == GamePieces.Red || board[pieceRow + 1][pieceColumn + 1] == GamePieces.RedKing || board[pieceRow + 1][pieceColumn - 1] == GamePieces.RedKing || board[pieceRow - 1][pieceColumn + 1] == GamePieces.RedKing || board[pieceRow - 1][pieceColumn - 1] == GamePieces.RedKing) && board[moveToRow][moveToColumn] == null && (pieceRow + 2 == moveToRow || pieceRow - 2 == moveToRow) && (pieceColumn + 2 == moveToColumn || pieceColumn - 2 == moveToColumn))
         {
             return true;
         }
@@ -189,13 +187,13 @@ public class Game : Board // 2nd class
 
     public void PlayGame()
     {
+        var uI = new UserInput();
         while (true)//!IsGameOver(board.board))
         {
             PrintBoard();
             (int pieceRow, int pieceColumn) = uI.GetUserPieceCoordinates();
             (int moveToRow, int moveToColumn) = uI.GetUserEmptyCoordinates();
             MovePiece(pieceRow, pieceColumn, moveToRow, moveToColumn);
-            SwitchPlayer();
 
         }
         Console.Clear();

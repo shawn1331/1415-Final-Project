@@ -1,4 +1,4 @@
-public struct UserInput : IUserInput  // use of a struct
+public struct UserInput : IUserInput  // use of a struct & interface inheritance
 {
 
     public int GetUserMenuSelection()
