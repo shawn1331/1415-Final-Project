@@ -1,4 +1,4 @@
-public enum Player  // The enum
+public enum Player  // an enum
 {
     Player1,
     Player2

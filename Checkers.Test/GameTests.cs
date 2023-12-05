@@ -65,7 +65,7 @@ public class GameTests // There are 23 total tests
         game.MovePiece(2, 1, 3, 2);
         game.MovePiece(5, 2, 4, 3);
         game.MovePiece(3,2,5,0);
-        Assert.IsTrue(game.IsJumpable(3, 2, 5, 1), "The piece at 5,2 is jumpable");
+        Assert.IsTrue(game.IsJumpable(3, 2, 5, 0), "The piece at 4,1 is jumpable");
     }
 
     [Test]
@@ -87,7 +87,7 @@ public class GameTests // There are 23 total tests
     {
         Game game = new Game();
         Board board = new Board();
-        game.MovePiece(6,1,5,2);
+        game.MovePiece(5,0,4,1);
         Assert.AreEqual(Player.Player2, game.currentPlayer);
     }
 
@@ -246,5 +246,11 @@ public class GameTests // There are 23 total tests
         game.MovePiece(1,2,0,1);
         string checkerBoard = board.BoardAsString();
         Assert.AreEqual(expected.ToString(), checkerBoard);
+    }
+
+    [Test]
+    public void TestPoints()
+    {
+        
     }
 }

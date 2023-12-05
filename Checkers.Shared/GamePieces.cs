@@ -1,6 +1,6 @@
 public class GamePieces  // 3rd class
 {
-    public string Symbol { get; set; }
+    public string? Symbol { get; set; }//auto property
     public GamePieces()
     {
 
@@ -11,15 +11,13 @@ public class GamePieces  // 3rd class
         Symbol = symbol;
     }
 
-    public override string ToString()
+    public override string ToString()//overriding a method
     {
         return Symbol;
     }
 
-    public static GamePieces Black => new("⚫");
-    public static GamePieces Red => new("🔴");
-    public static GamePieces BlackKing => new("⬛");
-    public static GamePieces RedKing => new("🟥");
-    public static GamePieces SideBorder => new("|");
-    public static GamePieces TopBottomBorder => new("--");
+    public static GamePieces? Black => new("⚫");
+    public static GamePieces? Red => new("🔴");
+    public static GamePieces? BlackKing => new("⬛");
+    public static GamePieces? RedKing => new("🟥");
 }
