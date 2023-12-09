@@ -2,26 +2,20 @@
 using System.Text;
 Console.OutputEncoding = Encoding.UTF8;
 Game game = new Game();
-Board board = new Board();
 UserInput input = new();
 Leaderboard leaderBoard = new Leaderboard();
 Console.BackgroundColor = ConsoleColor.DarkGray;
 leaderBoard.LoadLeaderboard();
 
-while (true)
+ var (redPlayer, blackPlayer) = input.GetPlayerNames();
+while (game.exit == false)
 {
-    game.PlayGame();
+    Game.PrintMenu();
+    int menuSelection = input.GetUserMenuSelection();
+    input.HandleMenuOptions(game, menuSelection, leaderBoard);
 }
-
-// while (game.exit == false)
-// {
-//     game.PrintMenu();
-//     int menuSelection = input.GetUserMenuSelection();
-//     game.HandleMenuOptions(menuSelection);
-// }
-// leaderBoard.AddScores(redPlayer,blackPlayer);
-// leaderBoard.SaveScoresToFile();
-// 
-// Console.BackgroundColor = ConsoleColor.Black;
-// Console.Clear();
-// Console.WriteLine("Thank you for playing. Goodbye.");
+leaderBoard.AddScores(redPlayer, blackPlayer);
+leaderBoard.SaveScoresToFile();
+Console.BackgroundColor = ConsoleColor.Black;
+Console.Clear();
+Console.WriteLine("Thank you for playing!");

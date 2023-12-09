@@ -26,7 +26,7 @@ public class Leaderboard // 4th class
         Scoreboard[redPlayer] = PointsRed;
         Scoreboard[blackPlayer] = PointsBlack;
     }
-    public void SaveScoresToFile()
+    public void SaveScoresToFile()// load file add contents of current dictionary to the file dictionary and then save updated file dictionary
     {
         string jsonData = JsonSerializer.Serialize(Scoreboard);// working with file
         File.WriteAllText(file, jsonData);
@@ -35,7 +35,7 @@ public class Leaderboard // 4th class
     {
         foreach (var score in Scoreboard)
         {
-            Console.WriteLine($"Player {score.Key}: {score.Value}");
+            Console.WriteLine($"{score.Key}: {score.Value}");
         }
     }
     public void PrintAllNames()//1st query expression

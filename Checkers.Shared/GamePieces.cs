@@ -18,6 +18,6 @@ public class GamePieces  // 3rd class
 
     public static GamePieces? Black => new("⚫");
     public static GamePieces? Red => new("🔴");
-    public static GamePieces? BlackKing => new("⬛");
+    public static GamePieces? BlackKing => new("🔳");
     public static GamePieces? RedKing => new("🟥");
 }
