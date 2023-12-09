@@ -206,7 +206,7 @@ public class Game : Board // 2nd class & Inheritance
                 }
             }
         }
-        UpgradeToKing(moveToRow, moveToColumn, leaderBoard);
+        UpgradeToKing(pieceRow, moveToRow, moveToColumn, leaderBoard);
         SwitchPlayer();
     }
 
@@ -223,14 +223,14 @@ public class Game : Board // 2nd class & Inheritance
         return false;
     }
 
-    private void UpgradeToKing(int moveToRow, int moveToColumn, Leaderboard leaderBoard)
+    private void UpgradeToKing(int pieceRow, int moveToRow, int moveToColumn, Leaderboard leaderBoard)
     {
-        if (IsKing(moveToRow) && moveToRow == 7)
+        if (IsKing(moveToRow) && moveToRow == 7 && pieceRow == 5 || pieceRow == 6)
         {
             board[moveToRow][moveToColumn] = GamePieces.BlackKing;
             leaderBoard.PointsBlack += 15;
         }
-        else if (IsKing(moveToRow) && moveToRow == 0)
+        else if (IsKing(moveToRow) && moveToRow == 0 && pieceRow == 1 || pieceRow == 2)
         {
             board[moveToRow][moveToColumn] = GamePieces.RedKing;
             leaderBoard.PointsRed += 15;
